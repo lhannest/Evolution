@@ -1,5 +1,7 @@
 package genome;
 
+import helpers.Equal;
+
 class Inov implements Comparable<Inov> {
 	private static int NEXT_INOVATION_NUMBER = 0;
 	private final int inovationNumber;
@@ -25,5 +27,15 @@ class Inov implements Comparable<Inov> {
 	@Override
 	public int compareTo(Inov other) {
 		return this.inovationNumber - other.inovationNumber;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!Equal.isSameClass(this, other)) {
+			return false;
+		} else {
+			Inov otherInov = (Inov) other;
+			return this.inovationNumber == otherInov.inovationNumber;
+		}
 	}
 }
