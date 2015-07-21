@@ -54,4 +54,9 @@ public class Random {
 		int index = Random.randomInteger(0, list.size());
 		return list.get(index);
 	}
+	
+	public static <E> E grab(E[] array) {
+		int index = Random.randomInteger(0, array.length);
+		return array[index];
+	}
 }

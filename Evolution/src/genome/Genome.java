@@ -4,14 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Genome {
-	public static void main(String[] args) {
-		Genome genome = new Genome(1, 1, 1);
-		Mutator mutator = new Mutator();
-		
-		Genome mutated = mutator.copy(genome);
-		Genome baby = mutator.cross(mutated, genome);
-	}
-	
 	List<NodeGene> nodeGenes = new ArrayList<NodeGene>();
 	List<ArcGene> arcGenes = new ArrayList<ArcGene>();
 	
