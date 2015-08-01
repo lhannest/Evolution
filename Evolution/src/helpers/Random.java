@@ -55,6 +55,11 @@ public class Random {
 		return list.get(index);
 	}
 	
+	/**
+	 * Randomly returns one of the members of array
+	 * @param array
+	 * @return
+	 */
 	public static <E> E grab(E[] array) {
 		int index = Random.randomInteger(0, array.length);
 		return array[index];

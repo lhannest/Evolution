@@ -1,7 +1,10 @@
 package neuralnetwork;
 
-public class NeuralNetwork {
-	public NeuralNetwork(int inputSize, int hiddenSize, int outputSize) {
+import genome.Genome;
+
+public class NeuralNetwork {	
+	
+	public NeuralNetwork(Genome genome) {
 		throw new RuntimeException();
 	}
 	

@@ -2,7 +2,7 @@ package genome;
 
 import helpers.Equal;
 
-class Inov implements Comparable<Inov> {
+public class Inov implements Comparable<Inov> {
 	private static int NEXT_INOVATION_NUMBER = 0;
 	private final int inovationNumber;
 	
