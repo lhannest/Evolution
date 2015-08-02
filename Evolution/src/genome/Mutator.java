@@ -140,7 +140,7 @@ public class Mutator {
 		return child;
 	}
 	
-	private <E> int pointOfDivergence(List<E> a, List<E> b) {
+	public static <E> int pointOfDivergence(List<E> a, List<E> b) {
 		int max = Math.min(a.size(), b.size());
 		
 		for (int i = 0; i < max; i++) {

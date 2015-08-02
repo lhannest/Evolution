@@ -32,10 +32,10 @@ public class Random {
 	}
 	
 	/**
-	 * Randomly returns either obj1 or obj2.
+	 * Randomly returns either <i>obj1</i> or <i>obj2</i>.
 	 * @param obj1
 	 * @param obj2
-	 * @return
+	 * @return Random.<i>randomBoolean</i>(0.5) ? obj1 : obj2
 	 */
 	public static <E> E grab(E obj1, E obj2) {
 		if (randomBoolean(0.5)) {
@@ -46,7 +46,7 @@ public class Random {
 	}
 	
 	/**
-	 * Randomly returns one of the members of list.
+	 * Randomly returns one of the members of <i>list</i>.
 	 * @param list
 	 * @return
 	 */
@@ -56,7 +56,7 @@ public class Random {
 	}
 	
 	/**
-	 * Randomly returns one of the members of array
+	 * Randomly returns one of the members of <i>array</i>.
 	 * @param array
 	 * @return
 	 */
