@@ -14,7 +14,7 @@ public class Random {
 	}
 	
 	/**
-	 * Randomly returns an integer from the range [min, max).
+	 * Randomly returns an integer between <i>min</i> inclusive and <i>max</> exclusive.
 	 * @param min
 	 * @param max
 	 * @return

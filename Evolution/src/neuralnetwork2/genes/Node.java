@@ -9,15 +9,19 @@ import genome.Inov;
 
 public class Node extends Gene {
 	private List<Arc> arcList = new ArrayList<Arc>();
-	private double value;
-	private boolean visited;
+	private double value = 0;
+	private boolean visited = false;
 
 	public Node(Inov inov) {
 		super(inov);
 	}
 	
+	private Node(Node node) {
+		super(node);
+	}
+	
 	public Node copy() {
-		return (Node) super.copy();
+		return new Node(this);
 	}
 	
 	public Iterable<Arc> arcIterator() {

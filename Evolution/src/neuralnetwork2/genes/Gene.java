@@ -20,10 +20,16 @@ class Gene {
 	
 	@Override
 	public boolean equals(Object other) {
-		if (!Equal.isSameClass(this, other)) {
+		boolean valid = (this instanceof Gene) && (other instanceof Gene);
+		
+		if (other == null) {
+			return false;
+		} else if (!valid) {
 			return false;
 		} else {
+			Gene thisGene = (Gene) this;
 			Gene otherGene = (Gene) other;
+			
 			return this.inov.equals(otherGene.inov);
 		}
 	}

@@ -1,6 +1,7 @@
 package neuralnetwork2.genes;
 
 import genome.Inov;
+import helpers.Random;
 
 public class Arc extends Gene {
 	public final Node PARENT;
@@ -22,6 +23,9 @@ public class Arc extends Gene {
 		this.PARENT = parent;
 		this.CHILD = child;
 		this.WEIGHT = weight;
+		
+		this.PARENT.addArc(this);
+		this.CHILD.addArc(this);
 	}
 	
 	/**
@@ -39,5 +43,11 @@ public class Arc extends Gene {
 	 */
 	public Arc copy(Node parent, Node child) {
 		return new Arc(super.copy(), parent, child, this.WEIGHT);
+	}
+	
+	public Arc copyWithJiggledWeight(double amount) {
+		double mutatedWeight = WEIGHT + Random.randomDouble(-amount, amount);
+		
+		return new Arc(copy(), PARENT, CHILD, mutatedWeight);
 	}
 }

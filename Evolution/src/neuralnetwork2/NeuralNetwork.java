@@ -24,23 +24,57 @@ public class NeuralNetwork {
 		OUTPUT_COUNT = outputCount;
 	}
 	
-	public NeuralNetwork(int inputCount, int hiddenCount, int outputCount) {
+	public NeuralNetwork(int inputCount, int hiddenCount, int outputCount) {		
+		INPUT_COUNT = inputCount;
+		OUTPUT_COUNT = outputCount;
+		
 		for (int i = 0; i < inputCount; i++) {
 			nodeList.add(new InputNode(Inov.makeZero()));
 		}
+		
+		List<Node> inputs = endSubList(inputCount);
 		
 		for (int i = 0; i < outputCount; i++) {
 			nodeList.add(new Node(Inov.makeZero()));
 		}
 		
+		List<Node> outputs = endSubList(outputCount);
+		
 		nodeList.add(new BiasNode(Inov.makeZero()));
+		
+		List<Node> bias = endSubList(1);
 		
 		for (int i = 0; i < hiddenCount; i++) {
 			nodeList.add(new Node(Inov.makeZero()));
 		}
 		
-		INPUT_COUNT = inputCount;
-		OUTPUT_COUNT = outputCount;
+		List<Node> hidden = endSubList(hiddenCount);
+		
+		
+		fullyConnect(inputs, hidden);
+		fullyConnect(hidden, outputs);
+		fullyConnect(bias, hidden);
+		fullyConnect(bias, outputs);
+		
+	}
+	
+	private void fullyConnect(List<Node> parents, List<Node> children) {
+		for (Node parent: parents) {
+			for (Node child: children) {
+				Arc arc = new Arc(Inov.makeZero(), parent, child, Math.random());
+				this.arcList.add(arc);
+			}
+		}
+	}
+
+	private List<Node> endSubList(int inputCount) {
+		List<Node> subList = new ArrayList<Node>();
+		
+		for (Node node: nodeList) {
+			subList.add(node);
+		}
+		
+		return subList;
 	}
 	
 	public void process() {
@@ -57,8 +91,8 @@ public class NeuralNetwork {
 		getInputs().get(i).setOutputValue(value);
 	}
 	
-	public void getOutput(int i) {
-		getOutputs().get(i).getOutputValue();
+	public double getOutput(int i) {
+		return getOutputs().get(i).getOutputValue();
 	}
 	
 	public NeuralNetwork copy() {
@@ -70,6 +104,10 @@ public class NeuralNetwork {
 		
 		for (Arc arc: arcList) {
 			clone.takeCopyOfArc(arc);
+		}
+		
+		if (clone.nodeList.size() == 1) {
+			return null;
 		}
 		
 		return clone;
@@ -95,6 +133,10 @@ public class NeuralNetwork {
 			childNeuralNetwork.takeCopyOfArc(arc);
 		}
 		
+		if (childNeuralNetwork.nodeList.size() == 1) {
+			return null;
+		}
+		
 		return childNeuralNetwork;
 	}
 	
@@ -115,6 +157,10 @@ public class NeuralNetwork {
 		for (int i = d; i < this.arcList.size(); i++) {
 			Arc arc = this.arcList.get(i);
 			childNeuralNet.takeCopyOfArc(arc); 
+		}
+		
+		if (childNeuralNet.nodeList.size() == 1) {
+			return null;
 		}
 		
 		return childNeuralNet;
@@ -155,6 +201,7 @@ public class NeuralNetwork {
 	}
 	
 	private List<Node> getOutputs() {
+		System.out.println(INPUT_COUNT + " " + OUTPUT_COUNT + " " + this.nodeList.size());
 		return this.nodeList.subList(INPUT_COUNT, INPUT_COUNT+OUTPUT_COUNT);
 	}
 }

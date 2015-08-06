@@ -10,7 +10,7 @@ public class InputNode extends Node {
 	
 	@Override
 	public void setVisited(boolean value) {
-		throw new InvalidNodeOperationException("Cannot make this node unvisited");
+		// Intentionally empty
 	}
 	
 	@Override
