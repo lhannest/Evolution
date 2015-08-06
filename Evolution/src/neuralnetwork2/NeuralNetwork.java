@@ -2,6 +2,7 @@ package neuralnetwork2;
 
 import genome.Inov;
 import genome.Mutator;
+import helpers.Mapping;
 import helpers.Random;
 
 import java.util.ArrayList;
@@ -97,13 +98,21 @@ public class NeuralNetwork {
 	
 	public NeuralNetwork copy() {
 		NeuralNetwork clone = new NeuralNetwork(INPUT_COUNT, OUTPUT_COUNT);
+		Mapping<Node, Node> mapping = new Mapping<Node, Node>();
 		
 		for (Node node: nodeList) {
-			clone.takeCopyOfNode(node);
+			clone.nodeList.add(node.copy());
+		}
+		
+		for (int i = 0; i < clone.nodeList.size(); i++) {
+			mapping.add(clone.nodeList.get(i), this.nodeList.get(i));
 		}
 		
 		for (Arc arc: arcList) {
-			clone.takeCopyOfArc(arc);
+			Node parent = (Node) mapping.getOther(arc.PARENT);
+			Node child = (Node) mapping.getOther(arc.CHILD);
+			
+			clone.arcList.add(arc.copy(parent, child));
 		}
 		
 		if (clone.nodeList.size() == 1) {
