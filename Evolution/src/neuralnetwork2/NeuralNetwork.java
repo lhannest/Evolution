@@ -101,22 +101,16 @@ public class NeuralNetwork {
 		Mapping<Node, Node> mapping = new Mapping<Node, Node>();
 		
 		for (Node node: nodeList) {
-			clone.nodeList.add(node.copy());
-		}
-		
-		for (int i = 0; i < clone.nodeList.size(); i++) {
-			mapping.add(clone.nodeList.get(i), this.nodeList.get(i));
+			Node copy = new Node(node);
+			clone.nodeList.add(copy);
+			mapping.add(copy, node);
 		}
 		
 		for (Arc arc: arcList) {
-			Node parent = (Node) mapping.getOther(arc.PARENT);
-			Node child = (Node) mapping.getOther(arc.CHILD);
+			Node parent = (Node) mapping.getOther(arc.getParent());
+			Node child = (Node) mapping.getOther(arc.getChild());
 			
-			clone.arcList.add(arc.copy(parent, child));
-		}
-		
-		if (clone.nodeList.size() == 1) {
-			return null;
+			clone.arcList.add(new Arc(arc, parent, child));
 		}
 		
 		return clone;
@@ -125,25 +119,38 @@ public class NeuralNetwork {
 	
 	public NeuralNetwork merge(NeuralNetwork other) {
 		NeuralNetwork childNeuralNetwork = new NeuralNetwork(INPUT_COUNT, OUTPUT_COUNT);
+		Mapping<Node, Node> mapping = new Mapping<Node, Node>();
 		
 		for (Node node: this.nodeList) {
-			childNeuralNetwork.takeCopyOfNode(node);
+			Node copy = new Node(node);
+			childNeuralNetwork.nodeList.add(copy);
+			mapping.add(copy, node);
 		}
 		
 		for (Node node: other.nodeList) {
-			childNeuralNetwork.takeCopyOfNode(node);
+			if (!childNeuralNetwork.nodeList.contains(node)) {
+				Node copy = new Node(node);
+				childNeuralNetwork.nodeList.add(copy);
+				mapping.add(copy, node);
+			}
 		}
 		
 		for (Arc arc: this.arcList) {
-			childNeuralNetwork.takeCopyOfArc(arc);
+			Node parent = (Node) mapping.getOther(arc.getParent());
+			Node child = (Node) mapping.getOther(arc.getChild());
+			
+			Arc copy = new Arc(arc, parent, child);
+			childNeuralNetwork.arcList.add(copy);
 		}
 		
 		for (Arc arc: other.arcList) {
-			childNeuralNetwork.takeCopyOfArc(arc);
-		}
-		
-		if (childNeuralNetwork.nodeList.size() == 1) {
-			return null;
+			if (!childNeuralNetwork.arcList.contains(arc)) {
+				Node parent = (Node) mapping.getOther(arc.getParent());
+				Node child = (Node) mapping.getOther(arc.getChild());
+				
+				Arc copy = new Arc(arc, parent, child);
+				childNeuralNetwork.arcList.add(copy);
+			}
 		}
 		
 		return childNeuralNetwork;
@@ -179,7 +186,7 @@ public class NeuralNetwork {
 		if (this.nodeList.contains(node)) {
 			return false;
 		} else {			
-			nodeList.add(node.copy());
+			nodeList.add(new Node(node));
 			return true;
 		}
 	}
@@ -188,10 +195,10 @@ public class NeuralNetwork {
 		if (this.arcList.contains(arc)) {
 			return false;
 		} else {
-			Node parent = getCorrespondingNode(arc.PARENT);
-			Node child = getCorrespondingNode(arc.CHILD);
+			Node parent = getCorrespondingNode(arc.getParent());
+			Node child = getCorrespondingNode(arc.getParent());
 			
-			arcList.add(arc.copy(parent, child));
+			arcList.add(new Arc(arc, parent, child));
 			return true;
 		}
 	}

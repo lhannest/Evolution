@@ -10,12 +10,12 @@ class Gene {
 		this.inov = inov;
 	}
 	
-	Gene(Gene gene) {
+	/**
+	 * Copy constructor, gene.equals(new Gene(gene)) evaluates to true.
+	 * @param node
+	 */
+	public Gene(Gene gene) {
 		this.inov = gene.inov;
-	}
-	
-	Gene copy() {
-		return new Gene(this.inov);
 	}
 	
 	@Override
@@ -32,5 +32,10 @@ class Gene {
 			
 			return this.inov.equals(otherGene.inov);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[inov=" + inov + "]";
 	}
 }

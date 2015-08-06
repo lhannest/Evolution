@@ -8,6 +8,14 @@ public class InputNode extends Node {
 		super(inov);
 	}
 	
+	/**
+	 * Copy constructor, node.equals(new InputNode(node)) evaluates to true.
+	 * @param node
+	 */
+	public InputNode(InputNode node) {
+		super(node);
+	}
+	
 	@Override
 	public void setVisited(boolean value) {
 		// Intentionally empty

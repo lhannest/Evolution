@@ -14,8 +14,8 @@ class Processor {
 			double sum = 0;
 			
 			for (Arc arc: node.arcIterator()) {
-				if (node.equals(arc.CHILD)) {
-					sum += visit(arc.PARENT) * arc.WEIGHT;
+				if (node.equals(arc.getChild())) {
+					sum += visit(arc.getParent()) * arc.getWeight();
 				}
 			}
 			

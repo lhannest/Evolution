@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mapping<E,T> {
-	public static void main(String[] args) {
-		Mapping<Integer, String> mapping = new Mapping<Integer, String>();
-		mapping.add(new Integer(2), "hello");
-		String hi = (String) mapping.getOther(new Integer(2));
-	}
 	
 	private List<Pair<E,T>> pairs = new ArrayList<Pair<E,T>>();
 	
+	@SuppressWarnings("hiding")
 	private class Pair<E,T> {
 		public E e;
 		public T t;
@@ -26,9 +22,10 @@ public class Mapping<E,T> {
 	}
 	
 	/**
-	 * 
+	 * For the first pair {a, b} within this mapping, getOther(a) returns b. <br>
+	 * getOther(c) where a == c will return b, but getOther(c) where a.equals(c) might not return b.
 	 * @param object
-	 * @return the first object that has been paired with <i>object</i>.
+	 * @return the first object that has been paired with <i>object</i>. If none found, returns <i>null</i>.
 	 */
 	public Object getOther(Object object) {
 		for (Pair<E, T> pair: this.pairs) {

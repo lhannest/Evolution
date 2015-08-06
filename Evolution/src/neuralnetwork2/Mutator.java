@@ -11,12 +11,8 @@ public class Mutator {
 	}
 	
 	public static void jiggleWeight(NeuralNetwork neuralNetwork) {
-		int index = Random.randomInteger(0, neuralNetwork.arcList.size());
-		
-		Arc arc = neuralNetwork.arcList.get(index);
-
-		neuralNetwork.arcList.remove(index);
-		neuralNetwork.arcList.add(arc.copyWithJiggledWeight(0.1));
+		Arc arc = Random.grab(neuralNetwork.arcList);
+		arc.jiggleWeight(0.1);
 	}
 	
 	public static void addNode(NeuralNetwork neuralNetwork) {

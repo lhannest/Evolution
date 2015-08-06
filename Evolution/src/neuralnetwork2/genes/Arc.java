@@ -4,50 +4,58 @@ import genome.Inov;
 import helpers.Random;
 
 public class Arc extends Gene {
-	public final Node PARENT;
-	public final Node CHILD;
-	public final double WEIGHT;
+	private final Node parent;
+	private final Node child;
+	private double weight;
 	
 	public Arc(Inov inov, Node parent, Node child, double weight) {
 		super(inov);
-		this.PARENT = parent;
-		this.CHILD = child;
-		this.WEIGHT = weight;
+		this.parent = parent;
+		this.child = child;
+		this.weight = weight;
 		
-		this.PARENT.addArc(this);
-		this.CHILD.addArc(this);
-	}
-	
-	private Arc(Gene gene, Node parent, Node child, double weight) {
-		super(gene);
-		this.PARENT = parent;
-		this.CHILD = child;
-		this.WEIGHT = weight;
-		
-		this.PARENT.addArc(this);
-		this.CHILD.addArc(this);
+		this.parent.addArc(this);
+		this.child.addArc(this);
 	}
 	
 	/**
-	 * This method functions as a cloning method.
-	 * <p>
-	 * arc.equals(arc.copy(,)) evaluates true,<br>
-	 * arc == arc.copy(,) evaluates false,<br>
-	 * arc.PARENT.equals(arc.copy(,).PARENT) may be either true or false.
-	 * <p>
-	 * This method is intended to be used only when cloning one set of arcs from a parent neural network
-	 * to a child neural network.
-	 * @param parent the parent (outgoing) node of the arc
-	 * @param child the child (incoming) node of the arc
-	 * @return a copy of the arc, but with the specified parent and child.
+	 * Copy constructor, arc.equals(new Arc(arc, parent, child)) evaluates to true.
+	 * @param arc
+	 * @param parent
+	 * @param child
 	 */
-	public Arc copy(Node parent, Node child) {
-		return new Arc(super.copy(), parent, child, this.WEIGHT);
+	public Arc(Arc arc, Node parent, Node child) {
+		super(arc);
+		this.parent = parent;
+		this.child = child;
+		this.weight = arc.weight;
+		
+		this.parent.addArc(this);
+		this.child.addArc(this);
 	}
 	
-	public Arc copyWithJiggledWeight(double amount) {
-		double mutatedWeight = WEIGHT + Random.randomDouble(-amount, amount);
-		
-		return new Arc(copy(), PARENT, CHILD, mutatedWeight);
+	public Node getParent() {
+		return parent;
+	}
+	
+	public Node getChild() {
+		return child;
+	}
+	
+	public double getWeight() {
+		return weight;
+	}
+	
+	public void jiggleWeight(double amount) {
+		this.weight += Random.randomDouble(-amount, amount);
+	}
+	
+	public void randomizeWeight() {
+		this.weight = Random.randomDouble(-1, 1);
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "[parent = " + parent + ", child=" + child + "]";
 	}
 }

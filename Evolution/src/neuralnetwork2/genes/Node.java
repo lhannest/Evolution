@@ -16,12 +16,12 @@ public class Node extends Gene {
 		super(inov);
 	}
 	
-	private Node(Node node) {
+	/**
+	 * Copy constructor, node.equals(new Node(node)) evaluates to true.
+	 * @param node
+	 */
+	public Node(Node node) {
 		super(node);
-	}
-	
-	public Node copy() {
-		return new Node(this);
 	}
 	
 	public Iterable<Arc> arcIterator() {
@@ -64,5 +64,4 @@ public class Node extends Gene {
 			super(message);
 		}
 	}
-
 }

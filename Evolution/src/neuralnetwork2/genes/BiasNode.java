@@ -8,6 +8,14 @@ public class BiasNode extends InputNode {
 		super(inov);
 	}
 	
+	/**
+	 * Copy constructor, node.equals(new BiasNode(node)) evaluates to true.
+	 * @param node
+	 */
+	public BiasNode(BiasNode node) {
+		super(node);
+	}
+	
 	@Override
 	public void setOutputValue(double value) {
 		throw new InvalidNodeOperationException("Cannot modify the output value of this node");
