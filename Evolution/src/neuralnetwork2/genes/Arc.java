@@ -34,6 +34,18 @@ public class Arc extends Gene {
 		this.child.addArc(this);
 	}
 	
+	/**
+	 * Copy constructor, arc.equals(new Arc(arc, parent, child, 0)) evaluates to true.
+	 * @param arc
+	 * @param parent
+	 * @param child
+	 * @param weight
+	 */
+	public Arc(Arc arc, Node parent, Node child, double weight) {
+		this(arc, parent, child);
+		this.weight = weight;
+	}
+	
 	public Node getParent() {
 		return parent;
 	}

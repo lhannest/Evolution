@@ -20,8 +20,12 @@ public class Node extends Gene {
 	 * Copy constructor, node.equals(new Node(node)) evaluates to true.
 	 * @param node
 	 */
-	public Node(Node node) {
+	protected Node(Node node) {
 		super(node);
+	}
+	
+	public Node copy() {
+		return new Node(this);
 	}
 	
 	public Iterable<Arc> arcIterator() {

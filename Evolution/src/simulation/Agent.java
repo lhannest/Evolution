@@ -71,6 +71,11 @@ public class Agent implements Comparable<Agent> {
 	
 	@Override
 	public int compareTo(Agent other) {
-		return (int) Math.signum(this.fitness - other.fitness);
+		return (int) Math.signum(other.fitness - this.fitness);
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[fitness=" + fitness + "]";
 	}
 }

@@ -7,8 +7,7 @@ public class Mapping<E,T> {
 	
 	private List<Pair<E,T>> pairs = new ArrayList<Pair<E,T>>();
 	
-	@SuppressWarnings("hiding")
-	private class Pair<E,T> {
+	public class Pair<E,T> {
 		public E e;
 		public T t;
 		public Pair(E e, T t) {

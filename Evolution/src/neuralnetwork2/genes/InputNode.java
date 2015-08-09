@@ -12,8 +12,13 @@ public class InputNode extends Node {
 	 * Copy constructor, node.equals(new InputNode(node)) evaluates to true.
 	 * @param node
 	 */
-	public InputNode(InputNode node) {
+	protected InputNode(InputNode node) {
 		super(node);
+	}
+	
+	@Override
+	public InputNode copy() {
+		return new InputNode(this);
 	}
 	
 	@Override

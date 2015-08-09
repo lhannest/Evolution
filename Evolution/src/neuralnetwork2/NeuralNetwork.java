@@ -4,6 +4,8 @@ import genome.Inov;
 import genome.Mutator;
 import helpers.Mapping;
 import helpers.Random;
+import helpers.Zipper;
+import helpers.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,8 +102,8 @@ public class NeuralNetwork {
 		NeuralNetwork clone = new NeuralNetwork(INPUT_COUNT, OUTPUT_COUNT);
 		Mapping<Node, Node> mapping = new Mapping<Node, Node>();
 		
-		for (Node node: nodeList) {
-			Node copy = new Node(node);
+		for (Node node: nodeList) {			
+			Node copy = node.copy();
 			clone.nodeList.add(copy);
 			mapping.add(copy, node);
 		}
@@ -116,22 +118,45 @@ public class NeuralNetwork {
 		return clone;
 	}
 	
-	
 	public NeuralNetwork merge(NeuralNetwork other) {
+		NeuralNetwork childNet = new NeuralNetwork(INPUT_COUNT, OUTPUT_COUNT);
+		Zipper<Node> zipper = new Zipper<Node>(this.nodeList, other.nodeList);
+		
+		for (Pair<Node> pair: zipper) {
+			Node x = pair.X;
+			Node y = pair.Y;
+		}
+		
+		return childNet;
+	}
+	
+	public NeuralNetwork merge2(NeuralNetwork other) {
 		NeuralNetwork childNeuralNetwork = new NeuralNetwork(INPUT_COUNT, OUTPUT_COUNT);
 		Mapping<Node, Node> mapping = new Mapping<Node, Node>();
 		
-		for (Node node: this.nodeList) {
-			Node copy = new Node(node);
-			childNeuralNetwork.nodeList.add(copy);
-			mapping.add(copy, node);
+		int min = Math.min(this.nodeList.size(), other.nodeList.size());
+		for (int i = 0; i < min; i++) {
+			Node thisNode = this.nodeList.get(i);
+			Node otherNode = other.nodeList.get(i);
+			
+			if (thisNode.equals(otherNode)) {
+				Node copy = thisNode.copy();
+				childNeuralNetwork.nodeList.add(copy);
+				mapping.add(copy, thisNode);
+				mapping.add(copy, otherNode);
+			}
 		}
 		
-		for (Node node: other.nodeList) {
-			if (!childNeuralNetwork.nodeList.contains(node)) {
-				Node copy = new Node(node);
+		int max = Math.max(this.nodeList.size(), other.nodeList.size());
+		for (int i = min; i < max; i++) {
+			if (i < this.nodeList.size()) {
+				Node copy = this.nodeList.get(i).copy();
 				childNeuralNetwork.nodeList.add(copy);
-				mapping.add(copy, node);
+				mapping.add(copy, this.nodeList.get(i));
+			} else {
+				Node copy = other.nodeList.get(i).copy();
+				childNeuralNetwork.nodeList.add(copy);
+				mapping.add(copy, other.nodeList.get(i));
 			}
 		}
 		
@@ -158,58 +183,36 @@ public class NeuralNetwork {
 	
 	public NeuralNetwork cross(NeuralNetwork other) {
 		NeuralNetwork childNeuralNet = new NeuralNetwork(INPUT_COUNT, OUTPUT_COUNT);
+		Mapping<Node, Node> mapping = new Mapping<Node, Node>();
 		
 		for (Node node: this.nodeList) {
-			childNeuralNet.takeCopyOfNode(node);
+			Node copy = node.copy();
+			childNeuralNet.nodeList.add(copy);
+			mapping.add(copy, node);
 		}
 		
 		int d = Mutator.pointOfDivergence(this.arcList, other.arcList);
 		
 		for (int i = 0; i < d; i ++) {
-			Arc grabbed = Random.grab(this.arcList.get(i), other.arcList.get(i));
-			childNeuralNet.takeCopyOfArc(grabbed);
+			Arc arc = this.arcList.get(i);
+			
+			Node parent = (Node) mapping.getOther(arc.getParent());
+			Node child = (Node) mapping.getOther(arc.getChild());
+			double weight = Random.grab(arc.getWeight(), other.arcList.get(i).getWeight());
+			
+			childNeuralNet.arcList.add(new Arc(arc, parent, child, weight));
 		}
 		
 		for (int i = d; i < this.arcList.size(); i++) {
 			Arc arc = this.arcList.get(i);
-			childNeuralNet.takeCopyOfArc(arc); 
-		}
-		
-		if (childNeuralNet.nodeList.size() == 1) {
-			return null;
+			
+			Node parent = (Node) mapping.getOther(arc.getParent());
+			Node child = (Node) mapping.getOther(arc.getChild());
+			
+			childNeuralNet.arcList.add(new Arc(arc, parent, child));
 		}
 		
 		return childNeuralNet;
-	}
-
-	private boolean takeCopyOfNode(Node node) {
-		if (this.nodeList.contains(node)) {
-			return false;
-		} else {			
-			nodeList.add(new Node(node));
-			return true;
-		}
-	}
-
-	private boolean takeCopyOfArc(Arc arc) {
-		if (this.arcList.contains(arc)) {
-			return false;
-		} else {
-			Node parent = getCorrespondingNode(arc.getParent());
-			Node child = getCorrespondingNode(arc.getParent());
-			
-			arcList.add(new Arc(arc, parent, child));
-			return true;
-		}
-	}
-	
-	private Node getCorrespondingNode(Node node) {
-		for (Node n: this.nodeList) {
-			if (node.equals(n)) {
-				return n;
-			}
-		}
-		return null;
 	}
 
 	private List<Node> getInputs() {
@@ -217,7 +220,6 @@ public class NeuralNetwork {
 	}
 	
 	private List<Node> getOutputs() {
-		System.out.println(INPUT_COUNT + " " + OUTPUT_COUNT + " " + this.nodeList.size());
 		return this.nodeList.subList(INPUT_COUNT, INPUT_COUNT+OUTPUT_COUNT);
 	}
 }

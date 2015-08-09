@@ -14,10 +14,20 @@ public class Population implements Iterable<Agent> {
 		return agentList.add(agent);
 	}
 	
+	/**
+	 * Sorts the population of agents into descending order by their fitness, i.e. the first has the
+	 * highest fitness, while the last has the lowest fitness.
+	 */
+	public void sort() {
+		Collections.sort(agentList);
+	}
+	
 	public void breed(double percent) {
 		if (percent > 1 || percent < 0) {
 			throw new RuntimeException("percent must be between 0 and 1");
 		}
+		
+		Collections.sort(agentList);
 		
 		int max = (int) (agentList.size() * percent);
 		
@@ -41,12 +51,11 @@ public class Population implements Iterable<Agent> {
 		Collections.sort(agentList);
 
 		int index = (int) (agentList.size() * (1-percent));
-		
-		List<Agent> killList = agentList.subList(index, agentList.size());
-		
-		int numberRemoved = killList.size();
-		
-		agentList.remove(killList);
+		int numberRemoved = 0;
+		for (int i = agentList.size() - 1; i > index; i--) {
+			agentList.remove(i);
+			numberRemoved++;
+		}
 		
 		return numberRemoved;
 	}

@@ -16,7 +16,7 @@ public class Simulation {
 				double error = 0;
 				
 				for (int i = 0; i < 10; i++) {
-					double x = i/10f + Random.randomDouble(-0.1, 0.1);
+					double x = i/10f;// + Random.randomDouble(-0.1, 0.1);
 					agent.setSensor(0, x);
 					agent.process();
 					double answer = agent.getActuator(0);
@@ -27,8 +27,9 @@ public class Simulation {
 				agent.decreaseFitness(error);
 			}
 			
-			population.kill(0.1);
-			population.breed(0.1);
+			population.sort();
+			population.kill(0.5);
+			population.breed(0.5);
 			
 			for (Agent agent: population) {
 				agent.resetFitness();

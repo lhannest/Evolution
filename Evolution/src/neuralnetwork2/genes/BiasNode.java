@@ -12,8 +12,13 @@ public class BiasNode extends InputNode {
 	 * Copy constructor, node.equals(new BiasNode(node)) evaluates to true.
 	 * @param node
 	 */
-	public BiasNode(BiasNode node) {
+	protected BiasNode(BiasNode node) {
 		super(node);
+	}
+	
+	@Override
+	public BiasNode copy() {
+		return new BiasNode(this);
 	}
 	
 	@Override

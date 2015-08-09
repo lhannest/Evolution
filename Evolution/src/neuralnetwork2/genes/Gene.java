@@ -3,7 +3,7 @@ package neuralnetwork2.genes;
 import genome.Inov;
 import helpers.Equal;
 
-class Gene {
+class Gene implements Comparable<Gene> {
 	private final Inov inov;
 	
 	public Gene(Inov inov) {
@@ -37,5 +37,10 @@ class Gene {
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "[inov=" + inov + "]";
+	}
+
+	@Override
+	public int compareTo(Gene other) {
+		return this.inov.compareTo(other.inov);
 	}
 }
