@@ -22,7 +22,12 @@ public class Population implements Iterable<Agent> {
 		Collections.sort(agentList);
 	}
 	
-	public void breed(double percent) {
+	/**
+	 * Breeds the population, creating new agents
+	 * @param number the number of agents to produce
+	 * @param percent the top percent of the population to select for breeding
+	 */
+	public void breed(int number, double percent) {
 		if (percent > 1 || percent < 0) {
 			throw new RuntimeException("percent must be between 0 and 1");
 		}
@@ -31,9 +36,9 @@ public class Population implements Iterable<Agent> {
 		
 		int max = (int) (agentList.size() * percent);
 		
-		for (int i = 0; i < max; i++) {
-			Agent mother = Random.grab(agentList);
-			Agent father = Random.grab(agentList);
+		for (int i = 0; i < number; i++) {
+			Agent mother = Random.grab(agentList.subList(0, max));
+			Agent father = Random.grab(agentList.subList(0, max));
 			
 			Agent child = mother.mate(father);
 			

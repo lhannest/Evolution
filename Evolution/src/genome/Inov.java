@@ -14,6 +14,10 @@ public class Inov implements Comparable<Inov> {
 		return new Inov(0);
 	}
 	
+	public boolean isInov(int inovNumber) {
+		return this.inovationNumber == inovNumber;
+	}
+	
 	public static Inov makeNext() {
 		NEXT_INOVATION_NUMBER++;
 		return new Inov(NEXT_INOVATION_NUMBER);

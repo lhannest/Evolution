@@ -1,17 +1,28 @@
 package simulation;
 
 import helpers.Random;
+import neuralnetwork2.FeedForwardNeuralNetwork;
 import neuralnetwork2.Mutator;
-import neuralnetwork2.NeuralNetwork;
+import neuralnetwork2.genes.NeuralNetwork;
 
 public class Agent implements Comparable<Agent> {
-	private NeuralNetwork neuralNetwork;
+	public NeuralNetwork neuralNetwork;
 	private double fitness = 0;
 	private final int SENSOR_COUNT;
 	private final int ACTUATOR_COUNT;
 	
+	public double getFitness() {
+		return this.fitness;
+	}
+	
+	public Agent(NeuralNetwork neuralNetwork) {
+		this.neuralNetwork = neuralNetwork;
+		this.SENSOR_COUNT = neuralNetwork.inputSize();
+		this.ACTUATOR_COUNT = neuralNetwork.outputSize();
+	}
+	
 	public Agent(int sensorCount, int actuatorCount) {
-		neuralNetwork = new NeuralNetwork(sensorCount, 1, actuatorCount);
+		neuralNetwork = new FeedForwardNeuralNetwork(sensorCount, 4, actuatorCount);
 		SENSOR_COUNT = sensorCount;
 		ACTUATOR_COUNT = actuatorCount;
 	}
@@ -21,11 +32,11 @@ public class Agent implements Comparable<Agent> {
 		
 		switch (Random.randomInteger(0, 5)) {
 		case 1:
-			child.neuralNetwork = this.neuralNetwork.cross(other.neuralNetwork);
+			//child.neuralNetwork = this.neuralNetwork.cross(other.neuralNetwork);
 			break;
 			
 		case 2:
-			child.neuralNetwork = this.neuralNetwork.merge(other.neuralNetwork);
+			//child.neuralNetwork = this.neuralNetwork.merge(other.neuralNetwork);
 			break;
 			
 		case 3:
@@ -38,9 +49,8 @@ public class Agent implements Comparable<Agent> {
 			
 		}
 		
-		if (Random.randomBoolean(0.5)) {
-			Mutator.mutate(child.neuralNetwork);
-		}
+		child.neuralNetwork.mutateParamiters();		
+		child.neuralNetwork.mutateTopology();
 		
 		return child;
 	}

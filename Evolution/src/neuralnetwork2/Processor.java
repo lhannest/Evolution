@@ -11,7 +11,7 @@ class Processor {
 			return node.getOutputValue();
 		} else {
 			node.setVisited(true);
-			double sum = 0;
+			double sum = node.getBiasValue();
 			
 			for (Arc arc: node.arcIterator()) {
 				if (node.equals(arc.getChild())) {

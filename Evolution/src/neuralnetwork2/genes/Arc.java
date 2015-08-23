@@ -1,12 +1,22 @@
 package neuralnetwork2.genes;
 
+import neuralnetwork2.Mutable;
 import genome.Inov;
 import helpers.Random;
 
-public class Arc extends Gene {
+public class Arc extends Gene implements Mutable {
 	private final Node parent;
 	private final Node child;
 	private double weight;
+	
+	public Arc(Node parent, Node child) {
+		this.parent = parent;
+		this.child = child;
+		this.weight = Random.randomDouble(-1, 1);
+		
+		this.parent.addArc(this);
+		this.child.addArc(this);
+	}
 	
 	public Arc(Inov inov, Node parent, Node child, double weight) {
 		super(inov);
@@ -16,6 +26,10 @@ public class Arc extends Gene {
 		
 		this.parent.addArc(this);
 		this.child.addArc(this);
+	}
+	
+	public Arc(Inov inov, Node parent, Node child) {
+		this(inov, parent, child, Random.randomDouble(-5, 5));
 	}
 	
 	/**
@@ -32,6 +46,10 @@ public class Arc extends Gene {
 		
 		this.parent.addArc(this);
 		this.child.addArc(this);
+	}
+	
+	public Arc copy(Node parent, Node child) {
+		return new Arc(this, parent, child);
 	}
 	
 	/**
@@ -69,5 +87,10 @@ public class Arc extends Gene {
 	@Override
 	public String toString() {
 		return super.toString() + "[parent = " + parent + ", child=" + child + "]";
+	}
+
+	@Override
+	public void mutate() {
+		this.jiggleWeight(0.1);
 	}
 }

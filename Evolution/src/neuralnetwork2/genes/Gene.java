@@ -4,7 +4,15 @@ import genome.Inov;
 import helpers.Equal;
 
 class Gene implements Comparable<Gene> {
-	private final Inov inov;
+	private Inov inov;
+	
+	protected void setInov(Inov inov) {
+		this.inov = inov;
+	}
+	
+	public Gene() {
+		
+	}
 	
 	public Gene(Inov inov) {
 		this.inov = inov;
@@ -34,9 +42,13 @@ class Gene implements Comparable<Gene> {
 		}
 	}
 	
+	public boolean hasInov(int inovationNumber) {
+		return this.inov.isInov(inovationNumber);
+	}
+	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "[inov=" + inov + "]";
+		return this.hashCode() + getClass().getSimpleName() + "[inov=" + inov + "]";
 	}
 
 	@Override

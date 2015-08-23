@@ -20,6 +20,11 @@ public class Zipper<E extends Comparable<? super E>> implements Iterable<Pair<E>
 		
 		int k = 0;
 		for (E e2: b) {
+			if (k >= pairs.size()) {
+				pairs.add(new Pair<E>(null, e2));
+				break;
+			}
+			
 			Pair<E> pair = pairs.get(k);
 			
 			int cmp = e2.compareTo(pair.X);
@@ -32,6 +37,18 @@ public class Zipper<E extends Comparable<? super E>> implements Iterable<Pair<E>
 			
 			k++;
 		}
+	}
+	
+	public int indexOf(Object object) {
+		for (int i = 0; i < pairs.size(); i++) {
+			Pair<E> pair = pairs.get(i);
+			
+			if (object == pair.X || object == pair.Y) {
+				return i;
+			}
+		}
+		
+		return -1;
 	}
 
 	@Override

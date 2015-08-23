@@ -4,8 +4,8 @@ import genome.Inov;
 
 public class InputNode extends Node {
 
-	public InputNode(Inov inov) {
-		super(inov);
+	public InputNode() {
+		super(Inov.makeZero());
 	}
 	
 	/**

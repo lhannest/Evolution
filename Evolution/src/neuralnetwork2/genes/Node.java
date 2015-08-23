@@ -5,15 +5,47 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import genome.Inov;
+import neuralnetwork2.Mutable;
 
-public class Node extends Gene {
+import genome.Inov;
+import helpers.Random;
+
+public class Node extends Gene implements Mutable {
 	private List<Arc> arcList = new ArrayList<Arc>();
 	private double value = 0;
 	private boolean visited = false;
-
-	public Node(Inov inov) {
+	
+	private double biasValue;
+	
+	public void makeUnvisited() {
+		this.visited = false;
+	}
+	
+	public double visit() {
+		if (isVisited()) {
+			return getOutputValue();
+		} else {
+			setVisited(true);
+			double sum = biasValue;
+			
+			for (Arc arc: arcList) {
+				if (arc.getChild() == this) {
+					sum += arc.getParent().visit() * arc.getWeight();
+				}
+			}
+			double sigmoid = approxSigmoid(sum);
+			setOutputValue(sigmoid);
+			return getOutputValue();
+		}
+	}
+	
+	private double approxSigmoid(double x) {
+		return x / (1 + Math.abs(x));
+	}
+	
+	protected Node(Inov inov) {
 		super(inov);
+		biasValue = Random.randomDouble(-5, 5);
 	}
 	
 	/**
@@ -22,6 +54,11 @@ public class Node extends Gene {
 	 */
 	protected Node(Node node) {
 		super(node);
+		biasValue = node.biasValue;
+	}
+	
+	public double getBiasValue() {
+		return this.biasValue;
 	}
 	
 	public Node copy() {
@@ -54,18 +91,26 @@ public class Node extends Gene {
 	}
 	
 	boolean addArc(Arc arc) {
-		if (!this.arcList.contains(arc)) {
-			return false;
-		} else {
-			this.arcList.add(arc);
-			return true;
-		}
+		return this.arcList.add(arc);
+	}
+	
+	public void jiggleBiasValue(double amount) {
+		this.biasValue += Random.randomDouble(-amount, amount);
 	}
 	
 	@SuppressWarnings("serial")
 	public class InvalidNodeOperationException extends RuntimeException {
 		public InvalidNodeOperationException(String message) {
 			super(message);
+		}
+	}
+
+	@Override
+	public void mutate() {
+		for (Arc arc: this.arcList) {
+			if (Random.randomBoolean(0.1)) {
+				arc.mutate();
+			}
 		}
 	}
 }

@@ -7,4 +7,16 @@ public class Pair<E> {
 		this.X = x;
 		this.Y = y;
 	}
+	
+	/**
+	 * Returns X if it is not null, otherwise returns Y.
+	 * @return X != <b>null</b> ? X : (Y != <b>null</b> ? Y : <b>null</b>)
+	 */
+	public E getNotNull() {
+		if (X == null) {
+			return Y;
+		} else {
+			return X;
+		}
+	}
 }
