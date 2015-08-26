@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import neuralnetwork2.genes.Arc;
-import neuralnetwork2.genes.HiddenNode;
-import neuralnetwork2.genes.InputNode;
-import neuralnetwork2.genes.NeuralNetwork;
-import neuralnetwork2.genes.OutputNode;
-import neuralnetwork2.genes.Topology;
+import neuralnetwork.ComponentSet;
+import neuralnetwork.HiddenNode;
+import neuralnetwork.InputNode;
+import neuralnetwork.NeuralNetwork;
+import neuralnetwork.OutputNode;
 
 public class SimulationXOR {
 	public static void main(String[] args) {
@@ -45,22 +44,22 @@ public class SimulationXOR {
 		
 	}
 	
-	public static Topology makeTopology() {
-		Topology t = new Topology();
+	public static ComponentSet makeTopology() {
+		ComponentSet t = new ComponentSet();
 		
 		InputNode a = new InputNode();
 		InputNode b = new InputNode();
 		HiddenNode hidden = new HiddenNode();
 		OutputNode output = new OutputNode();
 		
-		t.addInputNode(a);
-		t.addInputNode(b);
-		t.addHiddenNode(hidden);
-		t.addOutputNode(output);
+		t.addInput(a);
+		t.addInput(b);
+		t.addHidden(hidden);
+		t.addOutput(output);
 		
-		t.addArc(new Arc(a, hidden));
-		t.addArc(new Arc(b, hidden));
-		t.addArc(new Arc(hidden, output));
+		t.addArc(a, hidden);
+		t.addArc(b, hidden);
+		t.addArc(hidden, output);
 		
 		
 		return t;
