@@ -1,7 +1,5 @@
 package helpers;
 
-import genome.Gene;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
