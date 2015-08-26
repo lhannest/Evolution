@@ -3,22 +3,6 @@ package neuralnetwork3;
 import junit.framework.TestCase;
 
 public class NeuralNetworkTest extends TestCase {
-	public void testTakeComponent() {
-		NeuralNetwork nn = new NeuralNetwork(build());
-		Node node = new Node();
-		
-		nn.takeExtraNode(node);
-		
-		Node lastNode = null;
-		
-		for (Node n: nn.nodeList) {
-			lastNode = n;
-		}
-		
-		assertNotSame(node, lastNode);
-		assertTrue(node.isInovNull());
-		assertFalse(lastNode.isInovNull());
-	}
 	
 	public void testConstructor() {
 		NeuralNetwork nn = new NeuralNetwork(build());
@@ -38,7 +22,7 @@ public class NeuralNetworkTest extends TestCase {
 		NeuralNetwork a = new NeuralNetwork(build());
 		NeuralNetwork b = new NeuralNetwork(build());
 		
-		NetworkBuilder builder = build();
+		ComponentSet builder = build();
 		builder.addArc(new Node(), new Node());
 		
 		NeuralNetwork c = new NeuralNetwork(builder);
@@ -49,8 +33,8 @@ public class NeuralNetworkTest extends TestCase {
 		assertFalse(c.compatible(a));
 	}
 	
-	public static NetworkBuilder build() {
-		NetworkBuilder builder = new NetworkBuilder();
+	public static ComponentSet build() {
+		ComponentSet builder = new ComponentSet();
 		
 		Node in1 = builder.addInput(new InputNode());
 		Node in2 = builder.addInput(new InputNode());

@@ -9,24 +9,26 @@ public class NeuralNetwork {
 	NodeList nodeList = new NodeList();
 	List<Arc> arcList = new ArrayList<Arc>();
 	
-	protected NeuralNetwork(NetworkBuilder builder) {
-		signature = new Signature(builder.inputSize(), builder.hiddenSize(), builder.outputSize(), builder.arcSize());
+	protected NeuralNetwork() { };
+	
+	public NeuralNetwork(ComponentSet set) {
+		signature = new Signature(set.inputSize(), set.hiddenSize(), set.outputSize(), set.arcSize());
 		
 		int count = 0;
 		
-		for (Node node: builder.hiddenIterator()) {
+		for (Node node: set.hiddenIterator()) {
 			count = addDefaultNode(node, count);
 		}
 		
-		for (Node node: builder.outputIterator()) {
+		for (Node node: set.outputIterator()) {
 			count = addDefaultNode(node, count);
 		}
 		
-		for (Node node: builder.inputIterator()) {
+		for (Node node: set.inputIterator()) {
 			count = addDefaultNode(node, count);
 		}
 		
-		for (Arc arc: builder.arcIterator()) {
+		for (Arc arc: set.arcIterator()) {
 			count = addDefaultArc(arc, count);
 		}
 		
@@ -51,34 +53,5 @@ public class NeuralNetwork {
 		this.arcList.add(copy);
 		
 		return count;
-	}
-	
-	protected Node takeExtraNode(Node node) {
-		Inov next = Inov.getNext();
-		Node copy = node.copyWithNewInov(next);
-		nodeList.add(copy);
-		return copy;
-	}
-	
-	protected boolean takeExtraArc(Arc arc) {
-		Node parent = nodeList.getMember(arc.getParent());
-		Node child = nodeList.getMember(arc.getChild());
-		
-		if (parent != null && child != null) {
-			arcList.add(arc.copy(parent, child));
-			return false;
-		} else {
-			if (parent == null) {
-				parent = takeExtraNode(arc.getParent());
-			}
-			
-			if (child == null) {
-				child = takeExtraNode(arc.getChild());
-			}
-			
-			Inov next = Inov.getNext();
-			arcList.add(arc.copyWithNewInov(parent, child, next));
-			return true;
-		}
 	}
 }

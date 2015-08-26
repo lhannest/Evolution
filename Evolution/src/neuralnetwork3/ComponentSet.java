@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class NetworkBuilder {
+public class ComponentSet {
 	private List<InputNode> inputNodes = new ArrayList<InputNode>();
 	private List<HiddenNode> hiddenNodes = new ArrayList<HiddenNode>();
 	private List<OutputNode> outputNodes = new ArrayList<OutputNode>();
