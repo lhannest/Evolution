@@ -1,4 +1,4 @@
-package neuralnetwork3;
+package neuralnetwork;
 
 import helpers.Equal;
 

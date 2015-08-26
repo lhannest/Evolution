@@ -1,5 +1,12 @@
-package neuralnetwork3;
+package neuralnetwork;
 
+import neuralnetwork.ComponentSet;
+import neuralnetwork.HiddenNode;
+import neuralnetwork.Inov;
+import neuralnetwork.InputNode;
+import neuralnetwork.NeuralNetwork;
+import neuralnetwork.Node;
+import neuralnetwork.OutputNode;
 import junit.framework.TestCase;
 
 public class NeuralNetworkTest extends TestCase {

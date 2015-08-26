@@ -1,26 +1,65 @@
 package neuralnetwork;
 
-import genome.Genome;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class NeuralNetwork {	
+public class NeuralNetwork {
+	Signature signature;
+	NodeList nodeList = new NodeList();
+	List<Arc> arcList = new ArrayList<Arc>();
 	
-	public NeuralNetwork(Genome genome) {
-		throw new RuntimeException();
+	protected NeuralNetwork() { };
+	
+	public NeuralNetwork(ComponentSet set) {
+		signature = new Signature(set.inputSize(), set.hiddenSize(), set.outputSize(), set.arcSize());
+		
+		int count = 0;
+		
+		for (Node node: set.hiddenIterator()) {
+			count = addDefaultNode(node, count);
+		}
+		
+		for (Node node: set.outputIterator()) {
+			count = addDefaultNode(node, count);
+		}
+		
+		for (Node node: set.inputIterator()) {
+			count = addDefaultNode(node, count);
+		}
+		
+		for (Arc arc: set.arcIterator()) {
+			count = addDefaultArc(arc, count);
+		}
+		
+		Collections.sort(nodeList);
+		Collections.sort(arcList);
 	}
 	
-	public void setInput(int i) {
-		throw new RuntimeException();
+	protected boolean compatible(NeuralNetwork other) {
+		return this.signature.equals(other.signature);
 	}
 	
-	public double getOutput(int i) {
-		throw new RuntimeException();
+	private int addDefaultNode(Node node, int count) {
+		Node copy = node.copyWithNewInov(Inov.getNegative(count++));
+		this.nodeList.add(copy);
+		
+		return count;
+	}
+	
+	private int addDefaultArc(Arc arc, int count) {
+		Arc copy = arc.copyWithNewInov(arc.getParent(), arc.getChild(),
+				Inov.getNegative(count++));
+		this.arcList.add(copy);
+		
+		return count;
 	}
 	
 	public int inputSize() {
-		throw new RuntimeException();
+		return signature.INPUT_COUNT;
 	}
 	
 	public int outputSize() {
-		throw new RuntimeException();
+		return signature.OUTPUT_COUNT;
 	}
 }

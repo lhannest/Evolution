@@ -1,9 +1,8 @@
 package simulation;
 
+import neuralnetwork.NeuralNetwork;
 import helpers.Random;
-import neuralnetwork2.FeedForwardNeuralNetwork;
-import neuralnetwork2.Mutator;
-import neuralnetwork2.genes.NeuralNetwork;
+
 
 public class Agent implements Comparable<Agent> {
 	public NeuralNetwork neuralNetwork;

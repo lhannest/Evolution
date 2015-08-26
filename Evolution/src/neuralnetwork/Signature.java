@@ -1,12 +1,12 @@
-package neuralnetwork3;
+package neuralnetwork;
 
 import helpers.Equal;
 
 class Signature {
-	private final int INPUT_COUNT;
-	private final int HIDDEN_COUNT;
-	private final int OUTPUT_COUNT;
-	private final int ARC_COUNT;
+	public final int INPUT_COUNT;
+	public final int HIDDEN_COUNT;
+	public final int OUTPUT_COUNT;
+	public final int ARC_COUNT;
 	
 	public Signature(int inputCount, int hiddenCount, int outputCount, int arcCount) {
 		INPUT_COUNT = inputCount;
