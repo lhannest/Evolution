@@ -21,7 +21,7 @@ public class Agent implements Comparable<Agent> {
 	}
 	
 	public Agent(int sensorCount, int actuatorCount) {
-		neuralNetwork = new FeedForwardNeuralNetwork(sensorCount, 4, actuatorCount);
+		neuralNetwork = new NeuralNetwork(null);
 		SENSOR_COUNT = sensorCount;
 		ACTUATOR_COUNT = actuatorCount;
 	}
@@ -39,17 +39,12 @@ public class Agent implements Comparable<Agent> {
 			break;
 			
 		case 3:
-			child.neuralNetwork = this.neuralNetwork.copy();
-			break;
+			throw new RuntimeException();
 			
 		case 4:
-			child.neuralNetwork = other.neuralNetwork.copy();
-			break;
+			throw new RuntimeException();
 			
 		}
-		
-		child.neuralNetwork.mutateParamiters();		
-		child.neuralNetwork.mutateTopology();
 		
 		return child;
 	}

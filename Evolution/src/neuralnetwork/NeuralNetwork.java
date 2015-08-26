@@ -62,4 +62,18 @@ public class NeuralNetwork {
 	public int outputSize() {
 		return signature.OUTPUT_COUNT;
 	}
+
+	public void process() {
+		// TODO Auto-generated method stub
+	}
+
+	public double getOutput(int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setInput(int i, double value) {
+		// TODO Auto-generated method stub
+		
+	}
 }
