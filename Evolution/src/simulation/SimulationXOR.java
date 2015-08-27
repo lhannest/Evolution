@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import neuralnetwork.ComponentSet;
+import neuralnetwork.Topology;
 import neuralnetwork.HiddenNode;
 import neuralnetwork.InputNode;
 import neuralnetwork.NeuralNetwork;
@@ -44,8 +44,8 @@ public class SimulationXOR {
 		
 	}
 	
-	public static ComponentSet makeTopology() {
-		ComponentSet t = new ComponentSet();
+	public static Topology makeTopology() {
+		Topology t = new Topology();
 		
 		InputNode a = new InputNode();
 		InputNode b = new InputNode();

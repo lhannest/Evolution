@@ -1,37 +1,39 @@
+import neuralnetwork.HiddenNode;
+import neuralnetwork.InputNode;
+import neuralnetwork.NeuralNetwork;
+import neuralnetwork.Node;
+import neuralnetwork.OutputNode;
+import neuralnetwork.Topology;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-public class Main extends BasicGame {
-	public static void main(String[] args) throws SlickException {
-		AppGameContainer app = new AppGameContainer(new Main("Evolution"));
-		app.setDisplayMode(100, 100, false);
-		app.start();
-	}
+import specialneuralnetwork.SpecialNode;
 
-
-	public Main(String title) {
-		super(title);
-	}
-
-	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
-		// TODO Auto-generated method stub
+public class Main{
+	public static void main(String[] args) {
+		Topology top = new Topology();
+		InputNode input = top.addInput(new InputNode());
+		HiddenNode hidden = top.addHidden(new SpecialNode());
+		OutputNode output = top.addOutput(new OutputNode());
+		top.addArc(input, hidden);
+		top.addArc(hidden, output);
+		
+		HiddenNode a = new SpecialNode();
+		
+		a.copy();
+		
+		NeuralNetwork nn = new NeuralNetwork(top);
+		
+		
 		
 	}
-
-	@Override
-	public void init(GameContainer arg0) throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(GameContainer arg0, int arg1) throws SlickException {
-		// TODO Auto-generated method stub
-		
+	
+	public static Node makeNode() {
+		return new InputNode();
 	}
 
 }

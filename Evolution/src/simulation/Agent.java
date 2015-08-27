@@ -1,6 +1,8 @@
 package simulation;
 
+import neuralnetwork.Mutator;
 import neuralnetwork.NeuralNetwork;
+import neuralnetwork.Reproducer;
 import helpers.Random;
 
 
@@ -31,20 +33,24 @@ public class Agent implements Comparable<Agent> {
 		
 		switch (Random.randomInteger(0, 5)) {
 		case 1:
-			//child.neuralNetwork = this.neuralNetwork.cross(other.neuralNetwork);
+			child.neuralNetwork = Reproducer.cross(this.neuralNetwork, other.neuralNetwork);
 			break;
 			
 		case 2:
-			//child.neuralNetwork = this.neuralNetwork.merge(other.neuralNetwork);
+			child.neuralNetwork = Reproducer.merge(this.neuralNetwork, other.neuralNetwork);
 			break;
 			
 		case 3:
-			throw new RuntimeException();
+			child.neuralNetwork = Reproducer.copy(this.neuralNetwork);
+			break;
 			
 		case 4:
-			throw new RuntimeException();
-			
+			child.neuralNetwork = Reproducer.copy(other.neuralNetwork);
+			break;
 		}
+		
+		Mutator mutator = new Mutator();
+		mutator.jiggleWeight(child.neuralNetwork);
 		
 		return child;
 	}

@@ -1,18 +1,20 @@
 package neuralnetwork;
 
+import helpers.Pair;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 
-public class ComponentSet {
+public class Topology {
 	private List<InputNode> inputNodes = new ArrayList<InputNode>();
 	private List<HiddenNode> hiddenNodes = new ArrayList<HiddenNode>();
 	private List<OutputNode> outputNodes = new ArrayList<OutputNode>();
 	private List<Arc> arcs = new ArrayList<Arc>();
 	
-	public Iterable<Arc> arcIterator() {
+	protected Iterable<Arc> arcIterator() {
 		return new Iterable<Arc>() {
 			@Override
 			public Iterator<Arc> iterator() {
@@ -21,7 +23,7 @@ public class ComponentSet {
 		};
 	}
 	
-	public Iterable<InputNode> inputIterator() {
+	protected Iterable<InputNode> inputIterator() {
 		return new Iterable<InputNode>() {
 			@Override
 			public Iterator<InputNode> iterator() {
@@ -30,7 +32,7 @@ public class ComponentSet {
 		};
 	}
 	
-	public Iterable<HiddenNode> hiddenIterator() {
+	protected Iterable<HiddenNode> hiddenIterator() {
 		return new Iterable<HiddenNode>() {
 			@Override
 			public Iterator<HiddenNode> iterator() {
@@ -39,7 +41,7 @@ public class ComponentSet {
 		};
 	}
 	
-	public Iterable<OutputNode> outputIterator() {
+	protected Iterable<OutputNode> outputIterator() {
 		return new Iterable<OutputNode>() {
 			@Override
 			public Iterator<OutputNode> iterator() {

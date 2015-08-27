@@ -1,5 +1,7 @@
 package neuralnetwork;
 
+import helpers.Zipper;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,26 +11,34 @@ public class NeuralNetwork {
 	NodeList nodeList = new NodeList();
 	List<Arc> arcList = new ArrayList<Arc>();
 	
-	protected NeuralNetwork() { };
+	private NeuralNetwork() { };
 	
-	public NeuralNetwork(ComponentSet set) {
-		signature = new Signature(set.inputSize(), set.hiddenSize(), set.outputSize(), set.arcSize());
+	protected static NeuralNetwork callEmptyConstructor() {
+		return new NeuralNetwork();
+	}
+	
+	public NeuralNetwork(Topology top) {
+		if (!isValid(top)) {
+			throw new RuntimeException("ComponentSet is not valid.");
+		}
+		
+		signature = new Signature(top.inputSize(), top.hiddenSize(), top.outputSize(), top.arcSize());
 		
 		int count = 0;
 		
-		for (Node node: set.hiddenIterator()) {
+		for (Node node: top.hiddenIterator()) {
 			count = addDefaultNode(node, count);
 		}
 		
-		for (Node node: set.outputIterator()) {
+		for (Node node: top.outputIterator()) {
 			count = addDefaultNode(node, count);
 		}
 		
-		for (Node node: set.inputIterator()) {
+		for (Node node: top.inputIterator()) {
 			count = addDefaultNode(node, count);
 		}
 		
-		for (Arc arc: set.arcIterator()) {
+		for (Arc arc: top.arcIterator()) {
 			count = addDefaultArc(arc, count);
 		}
 		
@@ -36,21 +46,44 @@ public class NeuralNetwork {
 		Collections.sort(arcList);
 	}
 	
+	private int addDefaultArc(Arc arc, int count) {		
+		Node parent = nodeList.getMember(arc.getParent());
+		Node child = nodeList.getMember(arc.getChild());
+		
+		arc.setInov(Inov.getNegative(count++));		
+		this.arcList.add(arc.copy(parent, child));
+		
+		return count;
+	}
+
+	private boolean isValid(Topology set) {
+		List<Node> nodes = new ArrayList<Node>();
+		
+		for (Node n: set.inputIterator()) nodes.add(n);
+		for (Node n: set.hiddenIterator()) nodes.add(n);
+		for (Node n: set.outputIterator()) nodes.add(n);
+		
+		boolean flag = false;
+		for (Node n: nodes) {
+			flag = false;
+			for (Arc arc: set.arcIterator()) {
+				if (n == arc.getParent() || n == arc.getChild()) {
+					flag = true;
+				}
+			}
+			if (flag == false) break;
+		}
+		
+		return flag;
+	}
+	
 	protected boolean compatible(NeuralNetwork other) {
 		return this.signature.equals(other.signature);
 	}
 	
 	private int addDefaultNode(Node node, int count) {
-		Node copy = node.copyWithNewInov(Inov.getNegative(count++));
-		this.nodeList.add(copy);
-		
-		return count;
-	}
-	
-	private int addDefaultArc(Arc arc, int count) {
-		Arc copy = arc.copyWithNewInov(arc.getParent(), arc.getChild(),
-				Inov.getNegative(count++));
-		this.arcList.add(copy);
+		node.setInov(Inov.getNegative(count++));
+		this.nodeList.add(node.copy());
 		
 		return count;
 	}

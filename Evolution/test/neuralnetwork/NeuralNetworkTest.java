@@ -1,6 +1,6 @@
 package neuralnetwork;
 
-import neuralnetwork.ComponentSet;
+import neuralnetwork.Topology;
 import neuralnetwork.HiddenNode;
 import neuralnetwork.Inov;
 import neuralnetwork.InputNode;
@@ -11,26 +11,11 @@ import junit.framework.TestCase;
 
 public class NeuralNetworkTest extends TestCase {
 	
-	public void testConstructor() {
-		NeuralNetwork nn = new NeuralNetwork(build());
-		
-		assertSame(nn.nodeList.size(), 4);
-		assertSame(nn.arcList.size(), 3);
-		
-		for (Node node: nn.nodeList) {
-			Node n = new InputNode();
-			assertTrue(node.equals(n.copyWithNewInov(Inov.getNegative(3))));
-			//Testing just the first node
-			break;
-		}
-	}
-	
 	public void testCompatible() {
 		NeuralNetwork a = new NeuralNetwork(build());
 		NeuralNetwork b = new NeuralNetwork(build());
 		
-		ComponentSet builder = build();
-		builder.addArc(new Node(), new Node());
+		Topology builder = build();
 		
 		NeuralNetwork c = new NeuralNetwork(builder);
 		
@@ -40,8 +25,8 @@ public class NeuralNetworkTest extends TestCase {
 		assertFalse(c.compatible(a));
 	}
 	
-	public static ComponentSet build() {
-		ComponentSet builder = new ComponentSet();
+	public static Topology build() {
+		Topology builder = new Topology();
 		
 		Node in1 = builder.addInput(new InputNode());
 		Node in2 = builder.addInput(new InputNode());

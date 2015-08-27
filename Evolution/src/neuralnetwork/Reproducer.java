@@ -5,18 +5,18 @@ import helpers.Random;
 import helpers.Zipper;
 
 public class Reproducer {
-	public NeuralNetwork copy(NeuralNetwork neuralNetwork) {
-		NeuralNetwork child = new NeuralNetwork();
+	public static NeuralNetwork copy(NeuralNetwork neuralNetwork) {
+		NeuralNetwork child = NeuralNetwork.callEmptyConstructor();
 		
 		for (Arc arc: neuralNetwork.arcList) {
-			copyOverArc(neuralNetwork, arc);
+			copyOverArc(child, arc);
 		}
 		
 		return child;
 	}
 	
-	public NeuralNetwork cross(NeuralNetwork dominant, NeuralNetwork submissive) {
-		NeuralNetwork child = new NeuralNetwork();
+	public static NeuralNetwork cross(NeuralNetwork dominant, NeuralNetwork submissive) {
+		NeuralNetwork child = NeuralNetwork.callEmptyConstructor();
 		Zipper<Arc> zipper = new Zipper<Arc>(dominant.arcList, submissive.arcList);
 		
 		for (Pair<Arc> p: zipper) {
@@ -35,8 +35,8 @@ public class Reproducer {
 		return child;
 	}
 	
-	public NeuralNetwork merge(NeuralNetwork nn1, NeuralNetwork nn2) {
-		NeuralNetwork child = new NeuralNetwork();
+	public static NeuralNetwork merge(NeuralNetwork nn1, NeuralNetwork nn2) {
+		NeuralNetwork child = NeuralNetwork.callEmptyConstructor();
 		Zipper<Arc> zipper = new Zipper<Arc>(nn1.arcList, nn2.arcList);
 		 
 		for (Pair<Arc> p: zipper) {

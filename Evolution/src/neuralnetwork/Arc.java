@@ -34,21 +34,8 @@ class Arc extends Component {
 		callAddArc();
 	}
 	
-	protected Arc(Arc other, Node parent, Node child, Inov inov) {
-		super(inov);
-		this.parent = parent;
-		this.child = child;
-		this.weight = other.weight;
-		
-		callAddArc();
-	}
-	
 	public Arc copy(Node parent, Node child) {
 		return new Arc(this, parent, child);
-	}
-	
-	protected Arc copyWithNewInov(Node parent, Node child, Inov inov) {
-		return new Arc(this, parent, child, inov);
 	}
 	
 	private void callAddArc() {

@@ -6,19 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class Node extends Component {
+
+public abstract class Node extends Component {
 	private final double DEFAULT_VALUE = 1;
 	
 	private final List<Arc> arcList = new ArrayList<Arc>();
 	private final double biasValue;
 	
 	public Node() {
+		super();
 		this.biasValue = Random.randomDouble(-DEFAULT_VALUE, DEFAULT_VALUE);
-	}
-	
-	protected Node(Node other, Inov newInov) {
-		super(newInov);
-		this.biasValue = other.biasValue;
 	}
 	
 	protected Node(Node other) {
@@ -26,17 +23,18 @@ class Node extends Component {
 		this.biasValue = other.biasValue;
 	}
 	
-	protected Node copyWithNewInov(Inov inov) {
-		return new Node(this, inov);
+	public final Node copy() {		
+		Node copy = this.overriddenCopyMethod();
+		
+		if (copy.getClass() != this.getClass()) {
+			throw new RuntimeException(copy.getClass() + " Must override overrideCopyMethod().");
+		} else {
+			return copy;
+		}
+		
 	}
 	
-	/**
-	 * node.copy().equals(node) is true, whereas node.copy() == node is false.
-	 * @return a copy of this node
-	 */
-	public Node copy() {
-		return new Node(this);
-	}
+	protected abstract Node overriddenCopyMethod();
 	
 	/**
 	 * This is only intended to be called by Arc's constructor

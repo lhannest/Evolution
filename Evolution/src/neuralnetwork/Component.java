@@ -3,14 +3,10 @@ package neuralnetwork;
 import helpers.Equal;
 
 abstract class Component implements Comparable<Component> {
-	private final Inov inov;
+	private Inov inov;
 	
 	protected Component() {
 		inov = null;
-	}
-	
-	protected Component(Inov inov) {
-		this.inov = inov;
 	}
 	
 	protected Component(Component other) {
@@ -21,19 +17,31 @@ abstract class Component implements Comparable<Component> {
 		return this.inov == null;
 	}
 	
+	protected void setInov(Inov inov) {
+		this.inov = inov;
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if (!Equal.isSameClass(this, other)) {
 			return false;
 		} else {
 			Component otherComp = (Component) other;
-			return this.inov.equals(otherComp.inov);
+			if (this.inov == null || otherComp.inov == null) {
+				return false;
+			} else {
+				return this.inov.equals(otherComp.inov);
+			}
 		}
 	}
 	
 	@Override
 	public int compareTo(Component other) {
-		return this.inov.compareTo(other.inov);
+		if (this.inov == null || other.inov == null) {
+			return 0;
+		} else {
+			return this.inov.compareTo(other.inov);
+		}
 	}
 	
 	@Override
