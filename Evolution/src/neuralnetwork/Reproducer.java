@@ -6,7 +6,7 @@ import helpers.Zipper;
 
 public class Reproducer {
 	public static NeuralNetwork copy(NeuralNetwork neuralNetwork) {
-		NeuralNetwork child = NeuralNetwork.callEmptyConstructor();
+		NeuralNetwork child = NeuralNetwork.callEmptyConstructor(neuralNetwork.signature);
 		
 		for (Arc arc: neuralNetwork.arcList) {
 			copyOverArc(child, arc);
@@ -16,7 +16,7 @@ public class Reproducer {
 	}
 	
 	public static NeuralNetwork cross(NeuralNetwork dominant, NeuralNetwork submissive) {
-		NeuralNetwork child = NeuralNetwork.callEmptyConstructor();
+		NeuralNetwork child = NeuralNetwork.callEmptyConstructor(dominant.signature);
 		Zipper<Arc> zipper = new Zipper<Arc>(dominant.arcList, submissive.arcList);
 		
 		for (Pair<Arc> p: zipper) {
@@ -36,7 +36,7 @@ public class Reproducer {
 	}
 	
 	public static NeuralNetwork merge(NeuralNetwork nn1, NeuralNetwork nn2) {
-		NeuralNetwork child = NeuralNetwork.callEmptyConstructor();
+		NeuralNetwork child = NeuralNetwork.callEmptyConstructor(nn1.signature);
 		Zipper<Arc> zipper = new Zipper<Arc>(nn1.arcList, nn2.arcList);
 		 
 		for (Pair<Arc> p: zipper) {

@@ -2,7 +2,7 @@ package neuralnetwork;
 
 import helpers.Equal;
 
-abstract class Component implements Comparable<Component> {
+public abstract class Component implements Comparable<Component> {
 	private Inov inov;
 	
 	protected Component() {

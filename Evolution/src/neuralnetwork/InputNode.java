@@ -11,7 +11,7 @@ final public class InputNode extends Node {
 	}
 
 	@Override
-	protected Node overriddenCopyMethod() {
+	protected Node callCopyConstructor() {
 		return new InputNode(this);
 	}
 }

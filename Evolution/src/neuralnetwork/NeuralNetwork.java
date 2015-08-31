@@ -1,25 +1,34 @@
 package neuralnetwork;
 
-import helpers.Zipper;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 
 public class NeuralNetwork {
 	Signature signature;
 	NodeList nodeList = new NodeList();
 	List<Arc> arcList = new ArrayList<Arc>();
 	
-	private NeuralNetwork() { };
+	private NeuralNetwork(Signature signature) {
+		this.signature = signature;
+	};
 	
-	protected static NeuralNetwork callEmptyConstructor() {
-		return new NeuralNetwork();
+	protected static NeuralNetwork callEmptyConstructor(Signature signature) {
+		return new NeuralNetwork(signature);
+	}
+	
+	protected List<Node> getNodeList() {
+		return Collections.unmodifiableList(this.nodeList);
+	}
+	
+	protected List<Arc> getArcList() {
+		return Collections.unmodifiableList(this.arcList);
 	}
 	
 	public NeuralNetwork(Topology top) {
 		if (!isValid(top)) {
-			throw new RuntimeException("ComponentSet is not valid.");
+			throw new RuntimeException("Topology is not valid.");
 		}
 		
 		signature = new Signature(top.inputSize(), top.hiddenSize(), top.outputSize(), top.arcSize());
@@ -97,16 +106,28 @@ public class NeuralNetwork {
 	}
 
 	public void process() {
-		// TODO Auto-generated method stub
+		for (Node node: this.nodeList) {
+			node.setVisited(false);
+		}
+		
+		for (Node node: this.nodeList) {
+			node.visit();
+		}
 	}
 
 	public double getOutput(int i) {
-		// TODO Auto-generated method stub
-		return 0;
+		return getOutputs().get(i).getValue();
 	}
 
 	public void setInput(int i, double value) {
-		// TODO Auto-generated method stub
-		
+		getInputs().get(i).setValue(value);
+	}
+	
+	private List<Node> getInputs() {
+		return nodeList.subList(0, signature.INPUT_COUNT);	
+	}
+	
+	private List<Node> getOutputs() {
+		return nodeList.subList(signature.INPUT_COUNT, signature.INPUT_COUNT + signature.OUTPUT_COUNT);
 	}
 }

@@ -11,7 +11,7 @@ final public class OutputNode extends Node {
 	}
 
 	@Override
-	protected Node overriddenCopyMethod() {
+	protected Node callCopyConstructor() {
 		return new OutputNode(this);
 	}
 }

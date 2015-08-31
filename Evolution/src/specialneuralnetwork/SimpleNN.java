@@ -21,4 +21,8 @@ public class SimpleNN extends NeuralNetwork {
 		
 		return top;
 	}
+	
+	public void getNode() {
+		super.getNodeList();
+	}
 }

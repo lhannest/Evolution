@@ -2,7 +2,7 @@ package neuralnetwork;
 
 import helpers.Equal;
 
-final class Inov implements Comparable<Inov> {
+public final class Inov implements Comparable<Inov> {
 	private static int NEXT_NUMBER = 0;	
 	private final int number;
 	

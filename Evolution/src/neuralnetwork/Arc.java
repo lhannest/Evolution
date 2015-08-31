@@ -2,12 +2,16 @@ package neuralnetwork;
 
 import helpers.Random;
 
-class Arc extends Component {
+public class Arc extends Component {
 	private final double DEFAULT_VALUE = 1;
 	
 	private double weight;
 	private Node parent;
 	private Node child;
+	
+	public double getWeight() {
+		return this.weight;
+	}
 	
 	public Node getParent() {
 		return this.parent;

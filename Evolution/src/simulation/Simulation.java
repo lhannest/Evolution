@@ -1,6 +1,11 @@
 package simulation;
 
-import helpers.Random;
+import neuralnetwork.HiddenNode;
+import neuralnetwork.InputNode;
+import neuralnetwork.NeuralNetwork;
+import neuralnetwork.Node;
+import neuralnetwork.OutputNode;
+import neuralnetwork.Topology;
 
 public class Simulation {
 	public static double function(double x) {
@@ -13,7 +18,16 @@ public class Simulation {
 		int RANGE = 1;
 		
 		for (int i = 0; i < 100; i++) {
-			population.add(new Agent(1, 1));
+			Topology top = new Topology();
+			Node input = top.addInput(new InputNode());
+			Node hidden = top.addHidden(new HiddenNode());
+			Node output = top.addOutput(new OutputNode());
+			top.addArc(input, hidden);
+			top.addArc(hidden, output);
+			
+			NeuralNetwork neuralNetwork = new NeuralNetwork(top);
+			
+			population.add(new Agent(neuralNetwork));
 		}
 		
 		while (true) {

@@ -22,37 +22,33 @@ public class Agent implements Comparable<Agent> {
 		this.ACTUATOR_COUNT = neuralNetwork.outputSize();
 	}
 	
-	public Agent(int sensorCount, int actuatorCount) {
-		neuralNetwork = new NeuralNetwork(null);
-		SENSOR_COUNT = sensorCount;
-		ACTUATOR_COUNT = actuatorCount;
-	}
-	
 	public Agent mate(Agent other) {
-		Agent child = new Agent(SENSOR_COUNT, ACTUATOR_COUNT);
+		NeuralNetwork neuralNetwork = null;
 		
-		switch (Random.randomInteger(0, 5)) {
+		switch (Random.randomInteger(0, 4)) {
+		case 0:
+			neuralNetwork = Reproducer.cross(this.neuralNetwork, other.neuralNetwork);
+			break;
+			
 		case 1:
-			child.neuralNetwork = Reproducer.cross(this.neuralNetwork, other.neuralNetwork);
+			neuralNetwork = Reproducer.merge(this.neuralNetwork, other.neuralNetwork);
 			break;
 			
 		case 2:
-			child.neuralNetwork = Reproducer.merge(this.neuralNetwork, other.neuralNetwork);
+			neuralNetwork = Reproducer.copy(this.neuralNetwork);
 			break;
 			
 		case 3:
-			child.neuralNetwork = Reproducer.copy(this.neuralNetwork);
-			break;
-			
-		case 4:
-			child.neuralNetwork = Reproducer.copy(other.neuralNetwork);
+			neuralNetwork = Reproducer.copy(other.neuralNetwork);
 			break;
 		}
 		
-		Mutator mutator = new Mutator();
-		mutator.jiggleWeight(child.neuralNetwork);
+		if (Random.randomBoolean(0.3)) {
+			Mutator mutator = new Mutator();
+			mutator.jiggleWeight(neuralNetwork);
+		}
 		
-		return child;
+		return new Agent(neuralNetwork);
 	}
 	
 	public void process() {

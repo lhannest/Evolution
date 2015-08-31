@@ -1,6 +1,5 @@
 package neuralnetwork;
 
-import neuralnetwork.Inov;
 import junit.framework.TestCase;
 
 public class InovTest extends TestCase {

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
+
 public class Topology {
 	private List<InputNode> inputNodes = new ArrayList<InputNode>();
 	private List<HiddenNode> hiddenNodes = new ArrayList<HiddenNode>();
