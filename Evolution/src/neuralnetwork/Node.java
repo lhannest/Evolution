@@ -9,9 +9,10 @@ import java.util.List;
 
 public abstract class Node extends Component {
 	private final double DEFAULT_VALUE = 1;
+	private final double JIGGLE_AMOUNT = 0.1;
 	
 	private final List<Arc> arcList = new ArrayList<Arc>();
-	private final double biasValue;
+	private double biasValue;
 	private boolean visited = false;
 	private double value = 0;
 	
@@ -29,7 +30,7 @@ public abstract class Node extends Component {
 		Node copy = this.callCopyConstructor();
 		
 		if (copy.getClass() != this.getClass()) {
-			throw new RuntimeException(copy.getClass() + " Must override overrideCopyMethod().");
+			throw new RuntimeException(copy.getClass() + " must override callCopyConstructor().");
 		} else {
 			return copy;
 		}
@@ -53,11 +54,14 @@ public abstract class Node extends Component {
 		if (isVisited()) {
 			return getValue();
 		} else {
-			double sum = 0;
+			double sum = -getBiasValue();
 			setVisited(true);
 			for (Arc arc: this.iterateOverArcs()) {
 				if (arc.getChild() == this) {
-					sum += arc.getWeight() * arc.getParent().visit();
+					double weight = arc.getWeight();
+					Node parent = arc.getParent();
+					
+					sum += weight * parent.visit();
 				}
 			}
 			setValue(activationFunction(sum));
@@ -67,6 +71,10 @@ public abstract class Node extends Component {
 	
 	public double activationFunction(double x) {
 		return x / (1+ Math.abs(x));
+	}
+	
+	public double getBiasValue() {
+		return this.biasValue;
 	}
 	
 	public double getValue() {
@@ -83,6 +91,10 @@ public abstract class Node extends Component {
 	
 	public void setVisited(boolean isVisited) {
 		this.visited = isVisited;
+	}
+	
+	public void jiggleBiasValue() {
+		this.biasValue += Random.randomDouble(-JIGGLE_AMOUNT, JIGGLE_AMOUNT);
 	}
 	
 	/**

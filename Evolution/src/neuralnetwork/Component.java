@@ -9,9 +9,15 @@ public abstract class Component implements Comparable<Component> {
 		inov = null;
 	}
 	
+	public double getAge() {
+		return this.inov.getAge();
+	}
+	
 	protected Component(Component other) {
 		this.inov = other.inov;
 	}
+	
+	
 	
 	boolean isInovNull() {
 		return this.inov == null;
@@ -46,6 +52,6 @@ public abstract class Component implements Comparable<Component> {
 	
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + "[inov=" + inov + "]";
+		return this.getClass().getSimpleName() + "[inov=" + inov + "]" + this.hashCode();
 	}
 }

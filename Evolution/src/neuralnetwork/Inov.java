@@ -24,6 +24,10 @@ public final class Inov implements Comparable<Inov> {
 	public static Inov getNegative(int number) {
 		return new Inov(- Math.abs(number));
 	}
+	
+	public int getAge() {
+		return NEXT_NUMBER - this.number;
+	}
 
 	@Override
 	public int compareTo(Inov other) {
@@ -43,5 +47,9 @@ public final class Inov implements Comparable<Inov> {
 			Inov otherInov = (Inov) other;
 			return this.number == otherInov.number;
 		}
+	}
+	
+	public boolean isOverZero() {
+		return this.number > 0;
 	}
 }

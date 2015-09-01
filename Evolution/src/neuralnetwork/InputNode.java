@@ -14,4 +14,12 @@ final public class InputNode extends Node {
 	protected Node callCopyConstructor() {
 		return new InputNode(this);
 	}
+	
+	@Override
+	public boolean isVisited() {
+		return true;
+	}
+	
+	@Override
+	public void setVisited(boolean value) { };
 }

@@ -1,5 +1,7 @@
 package neuralnetwork;
 
+import helpers.Random;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +16,7 @@ public class NeuralNetwork {
 		this.signature = signature;
 	};
 	
-	protected static NeuralNetwork callEmptyConstructor(Signature signature) {
+	static NeuralNetwork callEmptyConstructor(Signature signature) {
 		return new NeuralNetwork(signature);
 	}
 	
@@ -109,6 +111,7 @@ public class NeuralNetwork {
 		for (Node node: this.nodeList) {
 			node.setVisited(false);
 		}
+		double i = nodeList.get(0).getValue();
 		
 		for (Node node: this.nodeList) {
 			node.visit();
@@ -124,10 +127,20 @@ public class NeuralNetwork {
 	}
 	
 	private List<Node> getInputs() {
+		Collections.sort(nodeList);
 		return nodeList.subList(0, signature.INPUT_COUNT);	
 	}
 	
 	private List<Node> getOutputs() {
+		Collections.sort(nodeList);
 		return nodeList.subList(signature.INPUT_COUNT, signature.INPUT_COUNT + signature.OUTPUT_COUNT);
+	}
+	
+	private Node getRandomNode() {
+		return Random.grab(this.nodeList);
+	}
+	
+	private Arc getRandomArc() {
+		return Random.grab(this.arcList);
 	}
 }

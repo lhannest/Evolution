@@ -43,7 +43,8 @@ public class Simulation {
 					double answer = agent.getActuator(0);
 					
 					error += Math.abs(function(x) - answer);
-					System.out.println(((float)x)+","+((float)answer));
+					System.out.println(i + ": " + error);
+					
 				}
 				
 				System.out.println();
@@ -66,6 +67,5 @@ public class Simulation {
 				agent.resetFitness();
 			}
 		}
-		
 	}
 }

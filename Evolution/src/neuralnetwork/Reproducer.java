@@ -74,6 +74,6 @@ public class Reproducer {
 	private static Node copyOverNode(NeuralNetwork neuralNetwork, Node node) {
 		Node copy = node.copy();
 		neuralNetwork.nodeList.add(copy);
-		return node;
+		return copy;
 	}
 }

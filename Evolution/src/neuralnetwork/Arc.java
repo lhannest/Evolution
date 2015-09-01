@@ -4,6 +4,7 @@ import helpers.Random;
 
 public class Arc extends Component {
 	private final double DEFAULT_VALUE = 1;
+	private final double JIGGLE_AMOUNT = 0.1;
 	
 	private double weight;
 	private Node parent;
@@ -36,6 +37,10 @@ public class Arc extends Component {
 		this.weight = other.weight;
 		
 		callAddArc();
+	}
+	
+	public void jiggleWeight() {
+		this.weight += Random.randomDouble(-JIGGLE_AMOUNT, JIGGLE_AMOUNT);
 	}
 	
 	public Arc copy(Node parent, Node child) {

@@ -23,8 +23,14 @@ public class Mutator {
 		
 	}
 	
-	public void jiggleWeight(NeuralNetwork neuralNetwork) {
-		
+	public void jiggleParameters(NeuralNetwork neuralNetwork) {
+		if (Random.randomBoolean(0.5)) {
+			Arc arc = Random.grab(neuralNetwork.arcList);
+			arc.jiggleWeight();
+		} else {
+			Node node = Random.grab(neuralNetwork.nodeList);
+			node.jiggleBiasValue();
+		}
 	}
 	
 	public void resetWeight(NeuralNetwork neuralNetwork) {

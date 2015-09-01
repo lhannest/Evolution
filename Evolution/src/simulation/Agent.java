@@ -45,7 +45,7 @@ public class Agent implements Comparable<Agent> {
 		
 		if (Random.randomBoolean(0.3)) {
 			Mutator mutator = new Mutator();
-			mutator.jiggleWeight(neuralNetwork);
+			mutator.jiggleParameters(neuralNetwork);
 		}
 		
 		return new Agent(neuralNetwork);
