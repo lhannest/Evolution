@@ -3,7 +3,7 @@ package neuralnetwork;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-class NodeList extends ArrayList<Node> {
+public class NodeList extends ArrayList<Node> {
 	
 	/**
 	 * @param other

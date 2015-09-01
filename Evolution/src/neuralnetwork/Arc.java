@@ -3,6 +3,12 @@ package neuralnetwork;
 import helpers.Random;
 
 public class Arc extends Component {
+	public static class ArcFactory {
+		public static Arc makeDefault(Node parent, Node child) {
+			return null;
+		}
+	}
+	
 	private final double DEFAULT_VALUE = 1;
 	private final double JIGGLE_AMOUNT = 0.1;
 	

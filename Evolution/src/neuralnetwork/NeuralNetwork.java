@@ -135,12 +135,4 @@ public class NeuralNetwork {
 		Collections.sort(nodeList);
 		return nodeList.subList(signature.INPUT_COUNT, signature.INPUT_COUNT + signature.OUTPUT_COUNT);
 	}
-	
-	private Node getRandomNode() {
-		return Random.grab(this.nodeList);
-	}
-	
-	private Arc getRandomArc() {
-		return Random.grab(this.arcList);
-	}
 }

@@ -17,7 +17,9 @@ public abstract class Component implements Comparable<Component> {
 		this.inov = other.inov;
 	}
 	
-	
+	public boolean isDefaultComponent() {
+		return !this.inov.isOverZero();
+	}
 	
 	boolean isInovNull() {
 		return this.inov == null;

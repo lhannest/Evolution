@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+
 public abstract class Node extends Component {
 	private final double DEFAULT_VALUE = 1;
 	private final double JIGGLE_AMOUNT = 0.1;
